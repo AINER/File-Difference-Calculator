@@ -1,6 +1,5 @@
-import { cwd } from 'node:process';
 import { readFileSync } from 'node:fs';
-import * as path from 'path';
+import { resolve } from 'node:path';
 
 /**
  * Parses data from a file.
@@ -9,11 +8,10 @@ import * as path from 'path';
  * @return {Object} The parsed data from the file.
  */
 const parseData = (filePath) => {
-  const fullPathOfFile = path.resolve(filePath);
+  const fullPathOfFile = resolve(filePath);
   const jsonData = readFileSync(fullPathOfFile);
   const result = JSON.parse(jsonData);
   return result;
 }
-
 
 export default parseData;

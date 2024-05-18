@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
 import parseData from '../src/parseFileData.js';
+import compareFiles from '../src/compareFilesData.js';
 
 const program = new Command();
 
@@ -13,10 +14,8 @@ program
   .option('-f, --format', 'output format')
   .action((filepath1, filepath2, options) => {
     const data1 = parseData(filepath1);
-    console.log('🚀 → .action → data1:', data1);
-
     const data2 = parseData(filepath2);
-    console.log('🚀 → .action → data2:', data2);
+    compareFiles(data1, data2)
   });
 
 program.parse();
