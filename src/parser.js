@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { resolve, extname } from 'node:path';
+import yaml from 'js-yaml';
 
 /**
  * Parses data from a file.
@@ -8,9 +9,17 @@ import { resolve } from 'node:path';
  * @return {Object} The parsed data from the file.
  */
 const parseData = (filePath) => {
+  const fileExtension = extname(filePath);
   const fullPathOfFile = resolve(filePath);
   const jsonData = readFileSync(fullPathOfFile);
-  const result = JSON.parse(jsonData);
+  let result;
+
+  if (fileExtension === '.json') {
+    result = JSON.parse(jsonData);
+  } else if (fileExtension === '.yml' || fileExtension === '.yaml') {
+    result = yaml.load(jsonData);
+  }
+
   return result;
 };
 
