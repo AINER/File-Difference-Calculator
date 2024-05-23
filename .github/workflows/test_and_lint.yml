@@ -7,18 +7,18 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test_lint:
-
+  build_test_lint:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Install dependencies
-      run: make
-
-    - name: Run tests
-      run: make test
-
-    - name: Run linter
-      run: make lint
+      - name: Run tests
+        run: make test
+        
+      - name: Run linter
+        run: make lint
