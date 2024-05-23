@@ -17,8 +17,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npx jest
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v6.0.0
+        env:
+          CC_TEST_REPORTER_ID: <code_climate_reporter_id>
+        with:
+          coverageCommand: make test-coverage
+          debug: true
         
       - name: Run linter
         run: make lint
