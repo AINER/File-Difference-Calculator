@@ -4,7 +4,7 @@
   "description": "[![Actions Status](https://github.com/AINER/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/AINER/frontend-project-46/actions)",
   "main": "bin/gendiff.js",
   "scripts": {
-    "test": "jest --watch"
+    "test": "npx jest --watch"
   },
   "author": "",
   "license": "ISC",

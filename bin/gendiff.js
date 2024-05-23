@@ -13,7 +13,3 @@ program
   .argument('<filePath2>')
   .option('-f, --format [type]', 'output format')
   .action(compareFilesAction);
-
-program.parse();
-
-export default compareFilesAction;
