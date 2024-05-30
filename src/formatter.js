@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 /**
  * Normalizes the comparison result array for printing.
  *
