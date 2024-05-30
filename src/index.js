@@ -1,35 +1,28 @@
-import parseData from './parser.js';
-import compareFiles from './comparer.js';
-import formatСomparisonResultForPrint from './formatter.js';
+import parseData from "./parser.js";
+import compareFiles from "./comparer.js";
+import formatСomparisonResultLikeStylish from "./formatter.js";
 
 /**
- * Prints the comparison result of two file data objects.
+ * Compares the contents of two files and prints the comparison result in a specified format.
  *
- * @param {Object} firstFileData - The first file data object.
- * @param {Object} secondFileData - The second file data object.
- * @returns {Array} The normalized array ready for printing.
+ * @param {string} filePath1 - The path to the first file.
+ * @param {string} filePath2 - The path to the second file.
+ * @param {Object} formatOption - The object from commander option specifying the format for the comparison result.
+ * @param {string} formatOption.format - The format for the comparison result. Valid values are "stylish" or any other format.
+ * @return {Array} The array of strings representing the comparison result. For tests
  */
-const printComparisonResult = (firstFileData, secondFileData) => {
-  const comparisonResult = compareFiles(firstFileData, secondFileData);
-  const normalizedResult = formatСomparisonResultForPrint(comparisonResult);
-
-  normalizedResult.forEach((stringForPrint) => console.log(stringForPrint));
-
-  return normalizedResult;
-};
-
-/**
- * Compares the data in two files and print represented differences of strings of files.
- *
- * @param {string} filePath1 - The absolute or relative path of the first file to compare.
- * @param {string} filePath1 - The absolute or relative path of the second file to compare.
- * @return {void} This function does not return a value.
- */
-const compareFilesAction = (filePath1, filePath2) => {
+const compareFilesAndPrintResult = (filePath1, filePath2, formatOption) => {
   const fileData1 = parseData(filePath1);
   const fileData2 = parseData(filePath2);
-  const result = printComparisonResult(fileData1, fileData2);
-  return result;
+  const comparisonResult = compareFiles(fileData1, fileData2);
+
+  const normalizeFormatOption = formatOption.toLocaleLowerCase().trim();
+  let formattedStrings;
+  if (normalizeFormatOption === "stylish") {
+    formattedStrings = formatСomparisonResultLikeStylish(comparisonResult);
+  }
+
+  return formattedStrings; // return array for tests
 };
 
-export default compareFilesAction;
+export default compareFilesAndPrintResult;

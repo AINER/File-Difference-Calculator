@@ -1,34 +1,88 @@
+import _ from "lodash";
+
 /**
  * Normalizes the comparison result array for printing.
  *
  * @param {Array} comparedResultArray - The array containing the comparison result objects.
  * @return {Array} The normalized array ready for printing.
  */
-const formatСomparisonResultForPrint = (comparedResultArray) => {
-  const normalizedArray = ['{'];
-  comparedResultArray
-    .sort((a, b) => { // alphabetical sorting
-      if (Object.keys(a)[0] < Object.keys(b)[0]) {
-        return -1;
-      }
-      if (Object.keys(a)[0] > Object.keys(b)[0]) {
-        return 1;
-      }
-      return 0;
-    })
-    .map((obj) => {
-      const { status, ...property } = obj;
-      if (status === 'unchanged') {
-        normalizedArray.push(`    ${Object.keys(property)}: ${Object.values(property)}`);
-      } else if (status === 'deleted') {
-        normalizedArray.push(`  - ${Object.keys(property)}: ${Object.values(property)}`);
-      } else if (status === 'added') {
-        normalizedArray.push(`  + ${Object.keys(property)}: ${Object.values(property)}`);
-      }
-    });
-  normalizedArray.push('}');
+const formatСomparisonResultLikeStylish = (comparedResultArray) => {
+  const formattedArray = ["{"];
 
-  return normalizedArray;
+  const iter = (comparedResultArray) => {
+    const nestedElementIndent = "    ";
+
+    comparedResultArray
+      .sort((a, b) => {
+        // alphabetical sorting
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      })
+      .forEach((obj) => {
+        if (obj?.children === undefined) {
+          switch (obj.status) {
+            case "deleted":
+              formattedArray.push(
+                `${nestedElementIndent.repeat(obj.depth)}  - ${obj.name}: ${
+                  obj.value
+                }`
+              );
+              break;
+            case "added":
+              formattedArray.push(
+                `${nestedElementIndent.repeat(obj.depth)}  + ${obj.name}: ${
+                  obj.value
+                }`
+              );
+              break;
+            default:
+              formattedArray.push(
+                `${nestedElementIndent.repeat(obj.depth)}    ${obj.name}: ${
+                  obj.value
+                }`
+              );
+          }
+        } else if (obj?.children !== undefined) {
+          switch (obj.status) {
+            case "deleted":
+              formattedArray.push(
+                `${nestedElementIndent.repeat(obj.depth)}  - ${obj.name}: {`
+              );
+              break;
+            case "added":
+              formattedArray.push(
+                `${nestedElementIndent.repeat(obj.depth)}  + ${obj.name}: {`
+              );
+              break;
+            default:
+              formattedArray.push(
+                `${nestedElementIndent.repeat(obj.depth)}    ${obj.name}: {`
+              );
+          }
+
+          iter(obj.children);
+        }
+      });
+
+    if (comparedResultArray[0]?.depth > 0) {
+      const closingBracketIndent = nestedElementIndent.repeat(
+        comparedResultArray[0]?.depth
+      );
+      formattedArray.push(`${closingBracketIndent}}`);
+    }
+
+    return formattedArray;
+  };
+
+  const result = iter(comparedResultArray);
+  result.push(`}`);
+
+  return result;
 };
 
-export default formatСomparisonResultForPrint;
+export default formatСomparisonResultLikeStylish;

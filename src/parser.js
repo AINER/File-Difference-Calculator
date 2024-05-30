@@ -1,6 +1,6 @@
-import { readFileSync } from 'node:fs';
-import { resolve, extname } from 'node:path';
-import yaml from 'js-yaml';
+import { readFileSync } from "node:fs";
+import { resolve, extname } from "node:path";
+import yaml from "js-yaml";
 
 /**
  * Parses data from a file.
@@ -14,9 +14,9 @@ const parseData = (filePath) => {
   const jsonData = readFileSync(fullPathOfFile);
   let result;
 
-  if (fileExtension === '.json') {
+  if (fileExtension === ".json") {
     result = JSON.parse(jsonData);
-  } else if (fileExtension === '.yml' || fileExtension === '.yaml') {
+  } else if (fileExtension === ".yml" || fileExtension === ".yaml") {
     result = yaml.load(jsonData);
   }
 
