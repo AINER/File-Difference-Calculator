@@ -1,4 +1,3 @@
-import _ from "lodash";
 /**
  * Normalizes the comparison result array for printing.
  *
@@ -28,6 +27,20 @@ const formatLikePlain = (comparedResultArray) => {
           value = obj.value;
         }
 
+        let updatedValue;
+        let updatedElements;
+
+        if (obj.status === "updated: deleted") {
+          updatedElements = comparedResultArray.filter(
+            (el) => el.name === obj.name
+          );
+          if (typeof updatedElements[1].value === "string") {
+            updatedValue = `'${updatedElements[1].value}'`;
+          } else {
+            updatedValue = updatedElements[1].value;
+          }
+        }
+
         if (obj?.children === undefined) {
           switch (obj.status) {
             case "deleted":
@@ -41,15 +54,6 @@ const formatLikePlain = (comparedResultArray) => {
               );
               break;
             case "updated: deleted":
-              const updatedElements = comparedResultArray.filter(
-                (el) => el.name === obj.name
-              );
-              let updatedValue;
-              if (typeof updatedElements[1].value === "string") {
-                updatedValue = `'${updatedElements[1].value}'`;
-              } else {
-                updatedValue = updatedElements[1].value;
-              }
               formattedArray.push(
                 `Property ${pathToCurrentNode}${obj.name} was updated. From ${value} to ${updatedValue}`
               );
@@ -68,15 +72,6 @@ const formatLikePlain = (comparedResultArray) => {
               );
               break;
             case "updated: deleted":
-              const updatedElements = comparedResultArray.filter(
-                (el) => el.name === obj.name
-              );
-              let updatedValue;
-              if (typeof updatedElements[1].value === "string") {
-                updatedValue = `'${updatedElements[1].value}'`;
-              } else {
-                updatedValue = updatedElements[1].value;
-              }
               formattedArray.push(
                 `Property ${pathToCurrentNode}${obj.name} was updated. From [complex value] to ${updatedValue}`
               );

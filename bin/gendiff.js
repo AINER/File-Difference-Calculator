@@ -18,10 +18,10 @@ program
     "stylish"
   )
   .action((filePath1, filePath2, options) => {
-    console.log(options.format);
     if (options.format !== "plain" && options.format !== "stylish") {
       throw new Error("Undefined format. Try to use 'plain' or 'stylish'");
     }
+
     compareFilesAndPrintResult(filePath1, filePath2, options.format).forEach(
       (stringForPrint) => console.log(stringForPrint)
     );
