@@ -29,18 +29,18 @@ const compareFiles = (fileData1, fileData2) => {
             resultArray.push({
               name: key,
               value: node1[key],
-              status: "deleted",
+              status: "updated: deleted",
               depth: depth,
             });
             if (typeof node2[key] !== "object" || node2[key] === null) {
               resultArray.push({
                 name: key,
                 value: node2[key],
-                status: "added",
+                status: "updated: added",
                 depth: depth,
               });
             } else if (typeof node2[key] === "object" && node2[key] !== null) {
-              newStatusOfParentOfObject = "parent is added";
+              newStatusOfParentOfObject = "parent is updated: added";
               resultArray.push({
                 name: key,
                 status: newStatusOfParentOfObject,
@@ -62,10 +62,10 @@ const compareFiles = (fileData1, fileData2) => {
                 children: iter(node1[key], node2[key], depth + 1),
               });
             } else if (typeof node1[key] !== typeof node2[key]) {
-              newStatusOfParentOfObject = "parent is deleted";
+              newStatusOfParentOfObject = "parent is updated: deleted";
               resultArray.push({
                 name: key,
-                status: "deleted",
+                status: "updated: deleted",
                 depth: depth,
                 children: iter(
                   node1[key],
@@ -77,14 +77,17 @@ const compareFiles = (fileData1, fileData2) => {
               resultArray.push({
                 name: key,
                 value: node2[key],
-                status: "added",
+                status: "updated: added",
                 depth: depth,
               });
             }
           }
         }
       } else if (!Object.hasOwn(node2, key)) {
-        if (statusOfParent === "parent is deleted") {
+        if (
+          statusOfParent === "parent is deleted" ||
+          statusOfParent === "parent is updated: deleted"
+        ) {
           if (typeof node1[key] !== "object" || Object.keys(node1) === 0) {
             resultArray.push({
               name: key,

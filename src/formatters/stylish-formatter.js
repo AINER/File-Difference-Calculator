@@ -4,7 +4,7 @@
  * @param {Array} comparedResultArray - The array containing the comparison result objects.
  * @return {Array} The normalized array ready for printing.
  */
-const formatСomparisonResultLikeStylish = (comparedResultArray) => {
+const formatLikeStylish = (comparedResultArray) => {
   const formattedArray = ["{"];
 
   const iter = (comparedResultArray) => {
@@ -25,6 +25,7 @@ const formatСomparisonResultLikeStylish = (comparedResultArray) => {
         if (obj?.children === undefined) {
           switch (obj.status) {
             case "deleted":
+            case "updated: deleted":
               formattedArray.push(
                 `${nestedElementIndent.repeat(obj.depth)}  - ${obj.name}: ${
                   obj.value
@@ -32,6 +33,7 @@ const formatСomparisonResultLikeStylish = (comparedResultArray) => {
               );
               break;
             case "added":
+            case "updated: added":
               formattedArray.push(
                 `${nestedElementIndent.repeat(obj.depth)}  + ${obj.name}: ${
                   obj.value
@@ -48,11 +50,13 @@ const formatСomparisonResultLikeStylish = (comparedResultArray) => {
         } else if (obj?.children !== undefined) {
           switch (obj.status) {
             case "deleted":
+            case "updated: deleted":
               formattedArray.push(
                 `${nestedElementIndent.repeat(obj.depth)}  - ${obj.name}: {`
               );
               break;
             case "added":
+            case "updated: added":
               formattedArray.push(
                 `${nestedElementIndent.repeat(obj.depth)}  + ${obj.name}: {`
               );
@@ -83,4 +87,4 @@ const formatСomparisonResultLikeStylish = (comparedResultArray) => {
   return result;
 };
 
-export default formatСomparisonResultLikeStylish;
+export default formatLikeStylish;

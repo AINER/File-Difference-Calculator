@@ -1,6 +1,6 @@
 import parseData from "./parser.js";
 import compareFiles from "./comparer.js";
-import formatСomparisonResultLikeStylish from "./formatter.js";
+import formatСomparisonResult from "./formatters/index.js";
 
 /**
  * Compares the contents of two files and prints the comparison result in a specified format.
@@ -14,13 +14,15 @@ import formatСomparisonResultLikeStylish from "./formatter.js";
 const compareFilesAndPrintResult = (filePath1, filePath2, formatOption) => {
   const fileData1 = parseData(filePath1);
   const fileData2 = parseData(filePath2);
+
   const comparisonResult = compareFiles(fileData1, fileData2);
 
   const normalizeFormatOption = formatOption.toLocaleLowerCase().trim();
   let formattedStrings;
-  if (normalizeFormatOption === "stylish") {
-    formattedStrings = formatСomparisonResultLikeStylish(comparisonResult);
-  }
+  formattedStrings = formatСomparisonResult(
+    comparisonResult,
+    normalizeFormatOption
+  );
 
   return formattedStrings; // return array for tests
 };
