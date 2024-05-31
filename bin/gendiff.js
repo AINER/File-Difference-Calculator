@@ -14,11 +14,15 @@ program
   .argument("<filePath2>")
   .option(
     "-f, --format <type>",
-    "output format: 'plain' or 'stylish'",
+    "output format: 'stylish', 'plain' or 'json'",
     "stylish"
   )
   .action((filePath1, filePath2, options) => {
-    if (options.format !== "plain" && options.format !== "stylish") {
+    if (
+      options.format !== "plain" &&
+      options.format !== "stylish" &&
+      options.format !== "json"
+    ) {
       throw new Error("Undefined format. Try to use 'plain' or 'stylish'");
     }
 

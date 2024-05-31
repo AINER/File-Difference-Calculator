@@ -7,6 +7,8 @@ const formatСomparisonResult = (comparedResultArray, style) => {
       return formatLikeStylish(comparedResultArray);
     case "plain":
       return formatLikePlain(comparedResultArray);
+    case "json":
+      return comparedResultArray;
   }
 };
 
