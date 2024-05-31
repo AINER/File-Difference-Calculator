@@ -1,0 +1,199 @@
+[
+  {
+    "name": "common",
+    "status": "modified internally",
+    "depth": 0,
+    "children": [
+      {
+        "name": "setting1",
+        "value": "Value 1",
+        "status": "unchanged",
+        "depth": 1
+      },
+      {
+        "name": "setting2",
+        "value": 200,
+        "status": "deleted",
+        "depth": 1
+      },
+      {
+        "name": "setting3",
+        "value": true,
+        "status": "updated: deleted",
+        "depth": 1
+      },
+      {
+        "name": "setting3",
+        "value": null,
+        "status": "updated: added",
+        "depth": 1
+      },
+      {
+        "name": "setting6",
+        "status": "modified internally",
+        "depth": 1,
+        "children": [
+          {
+            "name": "key",
+            "value": "value",
+            "status": "unchanged",
+            "depth": 2
+          },
+          {
+            "name": "doge",
+            "status": "modified internally",
+            "depth": 2,
+            "children": [
+              {
+                "name": "wow",
+                "value": "",
+                "status": "updated: deleted",
+                "depth": 3
+              },
+              {
+                "name": "wow",
+                "value": "so much",
+                "status": "updated: added",
+                "depth": 3
+              }
+            ]
+          },
+          {
+            "name": "ops",
+            "value": "vops",
+            "status": "added",
+            "depth": 2
+          }
+        ]
+      },
+      {
+        "name": "follow",
+        "value": false,
+        "status": "added",
+        "depth": 1
+      },
+      {
+        "name": "setting4",
+        "value": "blah blah",
+        "status": "added",
+        "depth": 1
+      },
+      {
+        "name": "setting5",
+        "status": "added",
+        "depth": 1,
+        "children": [
+          {
+            "name": "key5",
+            "value": "value5",
+            "status": "parent is added",
+            "depth": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "group1",
+    "status": "modified internally",
+    "depth": 0,
+    "children": [
+      {
+        "name": "baz",
+        "value": "bas",
+        "status": "updated: deleted",
+        "depth": 1
+      },
+      {
+        "name": "baz",
+        "value": "bars",
+        "status": "updated: added",
+        "depth": 1
+      },
+      {
+        "name": "foo",
+        "value": "bar",
+        "status": "unchanged",
+        "depth": 1
+      },
+      {
+        "name": "nest",
+        "status": "updated: deleted",
+        "depth": 1,
+        "children": [
+          {
+            "name": "key",
+            "value": "value",
+            "status": "parent is deleted",
+            "depth": 2
+          }
+        ]
+      },
+      {
+        "name": "nest",
+        "value": "str",
+        "status": "updated: added",
+        "depth": 1
+      }
+    ]
+  },
+  {
+    "name": "group2",
+    "status": "deleted",
+    "depth": 0,
+    "children": [
+      {
+        "name": "abc",
+        "value": 12345,
+        "status": "parent is deleted",
+        "depth": 1
+      },
+      {
+        "name": "deep",
+        "status": "parent is deleted",
+        "depth": 1,
+        "children": [
+          {
+            "name": "id",
+            "value": 45,
+            "status": "parent is deleted",
+            "depth": 2
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "group3",
+    "status": "added",
+    "depth": 0,
+    "children": [
+      {
+        "name": "deep",
+        "status": "parent is added",
+        "depth": 1,
+        "children": [
+          {
+            "name": "id",
+            "status": "parent is added",
+            "depth": 2,
+            "children": [
+              {
+                "name": "number",
+                "value": 45,
+                "status": "parent is added",
+                "depth": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "fee",
+        "value": 100500,
+        "status": "parent is added",
+        "depth": 1
+      }
+    ]
+  }
+]

@@ -45,17 +45,17 @@ const formatLikePlain = (comparedResultArray) => {
           switch (obj.status) {
             case "deleted":
               formattedArray.push(
-                `Property ${pathToCurrentNode}${obj.name} was removed`
+                `Property '${pathToCurrentNode}${obj.name}' was removed`
               );
               break;
             case "added":
               formattedArray.push(
-                `Property ${pathToCurrentNode}${obj.name} was added with value: ${value}`
+                `Property '${pathToCurrentNode}${obj.name}' was added with value: ${value}`
               );
               break;
             case "updated: deleted":
               formattedArray.push(
-                `Property ${pathToCurrentNode}${obj.name} was updated. From ${value} to ${updatedValue}`
+                `Property '${pathToCurrentNode}${obj.name}' was updated. From ${value} to ${updatedValue}`
               );
               break;
           }
@@ -63,17 +63,17 @@ const formatLikePlain = (comparedResultArray) => {
           switch (obj.status) {
             case "deleted":
               formattedArray.push(
-                `Property ${pathToCurrentNode}${obj.name} was removed`
+                `Property '${pathToCurrentNode}${obj.name}' was removed`
               );
               break;
             case "added":
               formattedArray.push(
-                `Property ${pathToCurrentNode}${obj.name} was added with value: [complex value]`
+                `Property '${pathToCurrentNode}${obj.name}' was added with value: [complex value]`
               );
               break;
             case "updated: deleted":
               formattedArray.push(
-                `Property ${pathToCurrentNode}${obj.name} was updated. From [complex value] to ${updatedValue}`
+                `Property '${pathToCurrentNode}${obj.name}' was updated. From [complex value] to ${updatedValue}`
               );
               break;
           }
