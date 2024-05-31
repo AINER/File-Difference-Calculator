@@ -1,5 +1,6 @@
 import formatLikeStylish from "./stylish-formatter.js";
-import formatLikePlain from "./plain-formatter copy.js";
+import formatLikePlain from "./plain-formatter.js";
+import formatLikeJson from "./json-formatter.js";
 
 const formatСomparisonResult = (comparedResultArray, style) => {
   switch (style) {
@@ -8,7 +9,7 @@ const formatСomparisonResult = (comparedResultArray, style) => {
     case "plain":
       return formatLikePlain(comparedResultArray);
     case "json":
-      return comparedResultArray;
+      return formatLikeJson(comparedResultArray);
   }
 };
 
