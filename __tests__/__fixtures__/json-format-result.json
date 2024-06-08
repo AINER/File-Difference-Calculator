@@ -19,13 +19,13 @@
       {
         "name": "setting3",
         "value": true,
-        "status": "updated: deleted",
+        "status": "updated: old",
         "depth": 1
       },
       {
         "name": "setting3",
         "value": null,
-        "status": "updated: added",
+        "status": "updated: new",
         "depth": 1
       },
       {
@@ -47,13 +47,13 @@
               {
                 "name": "wow",
                 "value": "",
-                "status": "updated: deleted",
+                "status": "updated: old",
                 "depth": 3
               },
               {
                 "name": "wow",
                 "value": "so much",
-                "status": "updated: added",
+                "status": "updated: new",
                 "depth": 3
               }
             ]
@@ -101,13 +101,13 @@
       {
         "name": "baz",
         "value": "bas",
-        "status": "updated: deleted",
+        "status": "updated: old",
         "depth": 1
       },
       {
         "name": "baz",
         "value": "bars",
-        "status": "updated: added",
+        "status": "updated: new",
         "depth": 1
       },
       {
@@ -118,7 +118,7 @@
       },
       {
         "name": "nest",
-        "status": "updated: deleted",
+        "status": "updated: old",
         "depth": 1,
         "children": [
           {
@@ -132,7 +132,7 @@
       {
         "name": "nest",
         "value": "str",
-        "status": "updated: added",
+        "status": "updated: new",
         "depth": 1
       }
     ]
