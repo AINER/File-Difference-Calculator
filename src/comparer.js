@@ -12,6 +12,14 @@ import _ from "lodash";
 const compareFiles = (fileData1, fileData2) => {
   const iter = (node1, node2, depth, statusOfParent) => {
     const resultArray = [];
+
+    const statusUnchanged = "unchanged";
+    const statusUpdatedOld = "updated: old";
+    const statusUpdatedNew = "updated: new";
+    const statusParentIsDeleted = "parent is deleted";
+    const statusParentIsAdded = "parent is added";
+    const statusParentIsUpdatedOld = "parent is updated: old";
+    const statusParentIsUpdatedNew = "parent is updated: new";
     let newStatusOfParentOfObject;
 
     const keys1 = Object.keys(node1);
@@ -21,7 +29,7 @@ const compareFiles = (fileData1, fileData2) => {
           resultArray.push({
             name: key,
             value: node1[key],
-            status: "unchanged",
+            status: statusUnchanged,
             depth: depth,
           });
         } else if (!_.isEqual(node1[key], node2[key])) {
@@ -29,18 +37,18 @@ const compareFiles = (fileData1, fileData2) => {
             resultArray.push({
               name: key,
               value: node1[key],
-              status: "updated: deleted",
+              status: statusUpdatedOld,
               depth: depth,
             });
             if (typeof node2[key] !== "object" || node2[key] === null) {
               resultArray.push({
                 name: key,
                 value: node2[key],
-                status: "updated: added",
+                status: statusUpdatedNew,
                 depth: depth,
               });
             } else if (typeof node2[key] === "object" && node2[key] !== null) {
-              newStatusOfParentOfObject = "parent is updated: added";
+              newStatusOfParentOfObject = statusParentIsUpdatedNew;
               resultArray.push({
                 name: key,
                 status: newStatusOfParentOfObject,
@@ -62,10 +70,10 @@ const compareFiles = (fileData1, fileData2) => {
                 children: iter(node1[key], node2[key], depth + 1),
               });
             } else if (typeof node1[key] !== typeof node2[key]) {
-              newStatusOfParentOfObject = "parent is updated: deleted";
+              newStatusOfParentOfObject = statusParentIsUpdatedOld;
               resultArray.push({
                 name: key,
-                status: "updated: deleted",
+                status: statusUpdatedOld,
                 depth: depth,
                 children: iter(
                   node1[key],
@@ -77,7 +85,7 @@ const compareFiles = (fileData1, fileData2) => {
               resultArray.push({
                 name: key,
                 value: node2[key],
-                status: "updated: added",
+                status: statusUpdatedNew,
                 depth: depth,
               });
             }
@@ -85,18 +93,18 @@ const compareFiles = (fileData1, fileData2) => {
         }
       } else if (!Object.hasOwn(node2, key)) {
         if (
-          statusOfParent === "parent is deleted" ||
-          statusOfParent === "parent is updated: deleted"
+          statusOfParent === statusParentIsDeleted ||
+          statusOfParent === statusParentIsUpdatedOld
         ) {
-          if (typeof node1[key] !== "object" || Object.keys(node1) === 0) {
+          if (typeof node1[key] !== "object") {
             resultArray.push({
               name: key,
               value: node1[key],
-              status: "parent is deleted",
+              status: statusParentIsDeleted,
               depth: depth,
             });
           } else if (typeof node1[key] === "object") {
-            newStatusOfParentOfObject = "parent is deleted";
+            newStatusOfParentOfObject = statusParentIsDeleted;
             resultArray.push({
               name: key,
               status: newStatusOfParentOfObject,
@@ -110,7 +118,7 @@ const compareFiles = (fileData1, fileData2) => {
             });
           }
         } else {
-          if (typeof node1[key] !== "object" || Object.keys(node1) === 0) {
+          if (typeof node1[key] !== "object") {
             resultArray.push({
               name: key,
               value: node1[key],
@@ -118,7 +126,7 @@ const compareFiles = (fileData1, fileData2) => {
               depth: depth,
             });
           } else if (typeof node1[key] === "object") {
-            newStatusOfParentOfObject = "parent is deleted";
+            newStatusOfParentOfObject = statusParentIsDeleted;
             resultArray.push({
               name: key,
               status: "deleted",
@@ -138,16 +146,16 @@ const compareFiles = (fileData1, fileData2) => {
     const keys2 = Object.keys(node2);
     keys2.forEach((key) => {
       if (!Object.hasOwn(node1, key)) {
-        if (statusOfParent === "parent is added") {
-          if (typeof node2[key] !== "object" || Object.keys(node2) === 0) {
+        if (statusOfParent === statusParentIsAdded) {
+          if (typeof node2[key] !== "object") {
             resultArray.push({
               name: key,
               value: node2[key],
-              status: "parent is added",
+              status: statusParentIsAdded,
               depth: depth,
             });
           } else if (typeof node2[key] === "object") {
-            newStatusOfParentOfObject = "parent is added";
+            newStatusOfParentOfObject = statusParentIsAdded;
             resultArray.push({
               name: key,
               status: newStatusOfParentOfObject,
@@ -161,7 +169,7 @@ const compareFiles = (fileData1, fileData2) => {
             });
           }
         } else {
-          if (typeof node2[key] !== "object" || Object.keys(node2) === 0) {
+          if (typeof node2[key] !== "object") {
             resultArray.push({
               name: key,
               value: node2[key],
@@ -169,7 +177,7 @@ const compareFiles = (fileData1, fileData2) => {
               depth: depth,
             });
           } else if (typeof node2[key] === "object") {
-            newStatusOfParentOfObject = "parent is added";
+            newStatusOfParentOfObject = statusParentIsAdded;
             resultArray.push({
               name: key,
               status: "added",

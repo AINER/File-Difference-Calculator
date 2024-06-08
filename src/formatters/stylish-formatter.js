@@ -1,3 +1,5 @@
+import sortByAlphabetical from "./sorter.js";
+
 /**
  * Normalizes the comparison result array for printing.
  *
@@ -9,67 +11,37 @@ const formatLikeStylish = (comparedResultArray) => {
 
   const iter = (comparedResultArray) => {
     const nestedElementIndent = "    ";
+    sortByAlphabetical(comparedResultArray);
 
-    comparedResultArray
-      .sort((a, b) => {
-        // alphabetical sorting
-        if (a.name < b.name) {
-          return -1;
-        }
-        if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
-      })
-      .forEach((obj) => {
-        if (obj?.children === undefined) {
-          switch (obj.status) {
-            case "deleted":
-            case "updated: deleted":
-              formattedArray.push(
-                `${nestedElementIndent.repeat(obj.depth)}  - ${obj.name}: ${
-                  obj.value
-                }`
-              );
-              break;
-            case "added":
-            case "updated: added":
-              formattedArray.push(
-                `${nestedElementIndent.repeat(obj.depth)}  + ${obj.name}: ${
-                  obj.value
-                }`
-              );
-              break;
-            default:
-              formattedArray.push(
-                `${nestedElementIndent.repeat(obj.depth)}    ${obj.name}: ${
-                  obj.value
-                }`
-              );
-          }
-        } else if (obj?.children !== undefined) {
-          switch (obj.status) {
-            case "deleted":
-            case "updated: deleted":
-              formattedArray.push(
-                `${nestedElementIndent.repeat(obj.depth)}  - ${obj.name}: {`
-              );
-              break;
-            case "added":
-            case "updated: added":
-              formattedArray.push(
-                `${nestedElementIndent.repeat(obj.depth)}  + ${obj.name}: {`
-              );
-              break;
-            default:
-              formattedArray.push(
-                `${nestedElementIndent.repeat(obj.depth)}    ${obj.name}: {`
-              );
-          }
-
-          iter(obj.children);
-        }
-      });
+    let currentStr;
+    comparedResultArray.forEach((obj) => {
+      switch (obj.status) {
+        case "deleted":
+        case "updated: old":
+          currentStr = `${nestedElementIndent.repeat(obj.depth)}  - ${
+            obj.name
+          }: `;
+          break;
+        case "added":
+        case "updated: new":
+          currentStr = `${nestedElementIndent.repeat(obj.depth)}  + ${
+            obj.name
+          }: `;
+          break;
+        default:
+          currentStr = `${nestedElementIndent.repeat(obj.depth)}    ${
+            obj.name
+          }: `;
+      }
+      if (obj?.children === undefined) {
+        currentStr = currentStr + obj.value;
+        formattedArray.push(currentStr);
+      } else if (obj?.children !== undefined) {
+        currentStr = currentStr + "{";
+        formattedArray.push(currentStr);
+        iter(obj.children);
+      }
+    });
 
     if (comparedResultArray[0]?.depth > 0) {
       const closingBracketIndent = nestedElementIndent.repeat(
