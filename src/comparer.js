@@ -28,9 +28,10 @@ const compareFiles = (fileData1, fileData2) => {
       node1 === null ||
       node2 === null
     ) {
-      throw new Error(
-        "Incorrect type of input data. Check the correctness of the contents in files specified for comparison"
+      console.log(
+        "❌  Incorrect type of input data. Check the correctness of the contents in files specified for comparison"
       );
+      return;
     }
 
     const keys1 = Object.keys(node1);

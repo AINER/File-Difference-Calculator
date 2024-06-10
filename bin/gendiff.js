@@ -24,7 +24,7 @@ program
       options.format !== "json"
     ) {
       throw new Error(
-        "Undefined format. Try to use 'plain', 'stylish' or 'json'"
+        "❌  Undefined format. Try to use 'plain', 'stylish' or 'json'"
       );
     }
 
