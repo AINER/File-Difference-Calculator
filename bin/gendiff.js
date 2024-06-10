@@ -18,8 +18,8 @@ program
     "stylish"
   )
   .action((filePath1, filePath2, options) => {
-    compareFilesAndPrintResult(filePath1, filePath2, options.format).forEach(
-      (stringForPrint) => console.log(stringForPrint)
+    console.log(
+      compareFilesAndPrintResult(filePath1, filePath2, options.format)
     );
   });
 

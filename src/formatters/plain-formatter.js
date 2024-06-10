@@ -7,7 +7,7 @@ import sortByAlphabetical from "./sorter.js";
  * @return {Array} The normalized array ready for printing.
  */
 const formatLikePlain = (comparedResultArray) => {
-  const formattedArray = [];
+  let stringForPrint = "";
 
   const iter = (comparedResultArray, pathToCurrentNode) => {
     sortByAlphabetical(comparedResultArray);
@@ -36,12 +36,12 @@ const formatLikePlain = (comparedResultArray) => {
       let currentStr;
       switch (obj.status) {
         case "deleted":
-          currentStr = `Property '${pathToCurrentNode}${obj.name}' was removed`;
-          formattedArray.push(currentStr);
+          currentStr = `\nProperty '${pathToCurrentNode}${obj.name}' was removed`;
+          stringForPrint = stringForPrint + currentStr;
           break;
 
         case "added":
-          currentStr = `Property '${pathToCurrentNode}${obj.name}' was added with value: `;
+          currentStr = `\nProperty '${pathToCurrentNode}${obj.name}' was added with value: `;
 
           if (obj?.children === undefined) {
             currentStr = currentStr + value;
@@ -49,11 +49,11 @@ const formatLikePlain = (comparedResultArray) => {
             currentStr = currentStr + "[complex value]";
           }
 
-          formattedArray.push(currentStr);
+          stringForPrint = stringForPrint + currentStr;
           break;
 
         case "updated: old":
-          currentStr = `Property '${pathToCurrentNode}${obj.name}' was updated. From `;
+          currentStr = `\nProperty '${pathToCurrentNode}${obj.name}' was updated. From `;
 
           if (obj?.children === undefined) {
             currentStr = currentStr + `${value} to ${updatedValue}`;
@@ -61,7 +61,7 @@ const formatLikePlain = (comparedResultArray) => {
             currentStr = currentStr + `[complex value] to ${updatedValue}`;
           }
 
-          formattedArray.push(currentStr);
+          stringForPrint = stringForPrint + currentStr;
           break;
       }
 
@@ -71,11 +71,11 @@ const formatLikePlain = (comparedResultArray) => {
       }
     });
 
-    return formattedArray;
+    return stringForPrint;
   };
 
-  const result = iter(comparedResultArray, "");
-
+  let result = iter(comparedResultArray, "");
+  result = result.slice(1); // Deleting first '\n'
   return result;
 };
 

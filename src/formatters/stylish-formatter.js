@@ -7,7 +7,7 @@ import sortByAlphabetical from "./sorter.js";
  * @return {Array} The normalized array ready for printing.
  */
 const formatLikeStylish = (comparedResultArray) => {
-  const formattedArray = ["{"];
+  let stringForPrint = "{";
 
   const iter = (comparedResultArray) => {
     const nestedElementIndent = "    ";
@@ -18,27 +18,27 @@ const formatLikeStylish = (comparedResultArray) => {
       switch (obj.status) {
         case "deleted":
         case "updated: old":
-          currentStr = `${nestedElementIndent.repeat(obj.depth)}  - ${
+          currentStr = `\n${nestedElementIndent.repeat(obj.depth)}  - ${
             obj.name
           }: `;
           break;
         case "added":
         case "updated: new":
-          currentStr = `${nestedElementIndent.repeat(obj.depth)}  + ${
+          currentStr = `\n${nestedElementIndent.repeat(obj.depth)}  + ${
             obj.name
           }: `;
           break;
         default:
-          currentStr = `${nestedElementIndent.repeat(obj.depth)}    ${
+          currentStr = `\n${nestedElementIndent.repeat(obj.depth)}    ${
             obj.name
           }: `;
       }
       if (obj?.children === undefined) {
         currentStr = currentStr + obj.value;
-        formattedArray.push(currentStr);
+        stringForPrint = stringForPrint + currentStr;
       } else if (obj?.children !== undefined) {
         currentStr = currentStr + "{";
-        formattedArray.push(currentStr);
+        stringForPrint = stringForPrint + currentStr;
         iter(obj.children);
       }
     });
@@ -47,15 +47,14 @@ const formatLikeStylish = (comparedResultArray) => {
       const closingBracketIndent = nestedElementIndent.repeat(
         comparedResultArray[0]?.depth
       );
-      formattedArray.push(`${closingBracketIndent}}`);
+      stringForPrint = stringForPrint + `\n${closingBracketIndent}}`;
     }
 
-    return formattedArray;
+    return stringForPrint;
   };
 
-  const result = iter(comparedResultArray);
-  result.push(`}`);
-
+  let result = iter(comparedResultArray);
+  result = result + `\n}`;
   return result;
 };
 
