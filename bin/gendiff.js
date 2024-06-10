@@ -18,16 +18,6 @@ program
     "stylish"
   )
   .action((filePath1, filePath2, options) => {
-    if (
-      options.format !== "plain" &&
-      options.format !== "stylish" &&
-      options.format !== "json"
-    ) {
-      throw new Error(
-        "❌  Undefined format. Try to use 'plain', 'stylish' or 'json'"
-      );
-    }
-
     compareFilesAndPrintResult(filePath1, filePath2, options.format).forEach(
       (stringForPrint) => console.log(stringForPrint)
     );

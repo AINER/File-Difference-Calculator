@@ -12,8 +12,31 @@ import formatСomparisonResult from "./formatters/index.js";
  * @return {Array} The array of strings representing the comparison result. For tests
  */
 const compareFilesAndPrintResult = (filePath1, filePath2, formatOption) => {
+  if (
+    formatOption !== "plain" &&
+    formatOption !== "stylish" &&
+    formatOption !== "json"
+  ) {
+    console.log(
+      "❌  Undefined format. Try to use 'plain', 'stylish' or 'json'"
+    );
+    return;
+  }
+
   const fileData1 = parseData(filePath1);
   const fileData2 = parseData(filePath2);
+
+  if (
+    typeof fileData1 !== "object" ||
+    typeof fileData2 !== "object" ||
+    fileData1 === null ||
+    fileData2 === null
+  ) {
+    console.log(
+      "❌  Incorrect type of input data. Check the correctness of the contents in files specified for comparison"
+    );
+    return;
+  }
 
   const comparisonResult = compareFiles(fileData1, fileData2);
 
