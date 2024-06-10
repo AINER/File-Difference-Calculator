@@ -1,4 +1,6 @@
-import _ from "lodash";
+/* eslint-disable no-lonely-if */
+
+import _ from 'lodash';
 
 /**
  * Compares the data in two files and returns an array of objects representing the differences.
@@ -20,16 +22,16 @@ const compareFiles = (fileData1, fileData2) => {
   const iter = (node1, node2, depth, statusOfParent) => {
     const resultArray = [];
 
-    const statusUnchanged = "unchanged";
-    const statusUpdatedOld = "updated: old";
-    const statusUpdatedNew = "updated: new";
-    const statusDeleted = "deleted";
-    const statusAdded = "added";
-    const statusParentIsDeleted = "parent is deleted";
-    const statusParentIsAdded = "parent is added";
-    const statusParentIsUpdatedOld = "parent is updated: old";
-    const statusParentIsUpdatedNew = "parent is updated: new";
-    const statusModifiedInternally = "modified internally";
+    const statusUnchanged = 'unchanged';
+    const statusUpdatedOld = 'updated: old';
+    const statusUpdatedNew = 'updated: new';
+    const statusDeleted = 'deleted';
+    const statusAdded = 'added';
+    const statusParentIsDeleted = 'parent is deleted';
+    const statusParentIsAdded = 'parent is added';
+    const statusParentIsUpdatedOld = 'parent is updated: old';
+    const statusParentIsUpdatedNew = 'parent is updated: new';
+    const statusModifiedInternally = 'modified internally';
     let newStatusOfParentOfObject;
 
     const keys1 = Object.keys(node1);
@@ -40,164 +42,121 @@ const compareFiles = (fileData1, fileData2) => {
             name: key,
             value: node1[key],
             status: statusUnchanged,
-            depth: depth,
+            depth,
           });
         } else if (!_.isEqual(node1[key], node2[key])) {
-          if (typeof node1[key] !== "object") {
+          if (typeof node1[key] !== 'object') {
             resultArray.push({
               name: key,
               value: node1[key],
               status: statusUpdatedOld,
-              depth: depth,
+              depth,
             });
-            if (typeof node2[key] !== "object" || node2[key] === null) {
+            if (typeof node2[key] !== 'object' || node2[key] === null) {
               resultArray.push({
                 name: key,
                 value: node2[key],
                 status: statusUpdatedNew,
-                depth: depth,
+                depth,
               });
-            } else if (typeof node2[key] === "object" && node2[key] !== null) {
+            } else if (typeof node2[key] === 'object' && node2[key] !== null) {
               newStatusOfParentOfObject = statusParentIsUpdatedNew;
               resultArray.push({
                 name: key,
                 status: statusUpdatedNew,
-                depth: depth,
-                children: iter(
-                  {},
-                  node2[key],
-                  depth + 1,
-                  newStatusOfParentOfObject
-                ),
+                depth,
+                children: iter({}, node2[key], depth + 1, newStatusOfParentOfObject),
               });
             }
-          } else if (typeof node1[key] === "object") {
-            if (
-              node1[key] !== null &&
-              node2[key] !== null &&
-              typeof node2[key] === "object"
+          } else if (typeof node1[key] === 'object') {
+            if (node1[key] !== null && node2[key] !== null && typeof node2[key] === 'object'
             ) {
               resultArray.push({
                 name: key,
                 status: statusModifiedInternally,
-                depth: depth,
-                children: iter(
-                  node1[key],
-                  node2[key],
-                  depth + 1,
-                  statusModifiedInternally
-                ),
+                depth,
+                children: iter(node1[key], node2[key], depth + 1, statusModifiedInternally),
               });
-            } else if (
-              node1[key] !== null &&
-              (typeof node2[key] !== "object" || node2[key] === null)
+            } else if (node1[key] !== null && (typeof node2[key] !== 'object' || node2[key] === null)
             ) {
               newStatusOfParentOfObject = statusParentIsUpdatedOld;
               resultArray.push({
                 name: key,
                 status: statusUpdatedOld,
-                depth: depth,
-                children: iter(
-                  node1[key],
-                  {},
-                  depth + 1,
-                  newStatusOfParentOfObject
-                ),
+                depth,
+                children: iter(node1[key], {}, depth + 1, newStatusOfParentOfObject),
               });
               resultArray.push({
                 name: key,
                 value: node2[key],
                 status: statusUpdatedNew,
-                depth: depth,
+                depth,
               });
-            } else if (
-              node1[key] === null &&
-              node2[key] !== null &&
-              typeof node2[key] === "object"
-            ) {
+            } else if (node1[key] === null && node2[key] !== null && typeof node2[key] === 'object') {
               resultArray.push({
                 name: key,
                 value: node1[key],
                 status: statusUpdatedOld,
-                depth: depth,
+                depth,
               });
               newStatusOfParentOfObject = statusParentIsUpdatedNew;
               resultArray.push({
                 name: key,
                 status: newStatusOfParentOfObject,
-                depth: depth,
-                children: iter(
-                  {},
-                  node2[key],
-                  depth + 1,
-                  newStatusOfParentOfObject
-                ),
+                depth,
+                children: iter({}, node2[key], depth + 1, newStatusOfParentOfObject),
               });
-            } else if (
-              (node1[key] === null || typeof node1[key] !== "object") &&
-              (node2[key] === null || typeof node2[key] !== "object")
+            } else if ((node1[key] === null || typeof node1[key] !== 'object') && (node2[key] === null || typeof node2[key] !== 'object')
             ) {
               resultArray.push({
                 name: key,
                 value: node1[key],
                 status: statusUpdatedOld,
-                depth: depth,
+                depth,
               });
               resultArray.push({
                 name: key,
                 value: node2[key],
                 status: statusUpdatedNew,
-                depth: depth,
+                depth,
               });
             }
           }
         }
       } else if (!Object.hasOwn(node2, key)) {
-        if (
-          statusOfParent === statusParentIsDeleted ||
-          statusOfParent === statusParentIsUpdatedOld
-        ) {
-          if (typeof node1[key] !== "object") {
+        if (statusOfParent === statusParentIsDeleted
+          || statusOfParent === statusParentIsUpdatedOld) {
+          if (typeof node1[key] !== 'object') {
             resultArray.push({
               name: key,
               value: node1[key],
               status: statusParentIsDeleted,
-              depth: depth,
+              depth,
             });
-          } else if (typeof node1[key] === "object") {
+          } else if (typeof node1[key] === 'object') {
             newStatusOfParentOfObject = statusParentIsDeleted;
             resultArray.push({
               name: key,
               status: newStatusOfParentOfObject,
-              depth: depth,
-              children: iter(
-                node1[key],
-                {},
-                depth + 1,
-                newStatusOfParentOfObject
-              ),
+              depth,
+              children: iter(node1[key], {}, depth + 1, newStatusOfParentOfObject),
             });
           }
         } else {
-          if (typeof node1[key] !== "object") {
+          if (typeof node1[key] !== 'object') {
             resultArray.push({
               name: key,
               value: node1[key],
               status: statusDeleted,
-              depth: depth,
+              depth,
             });
-          } else if (typeof node1[key] === "object") {
+          } else if (typeof node1[key] === 'object') {
             newStatusOfParentOfObject = statusParentIsDeleted;
             resultArray.push({
               name: key,
               status: statusDeleted,
-              depth: depth,
-              children: iter(
-                node1[key],
-                {},
-                depth + 1,
-                newStatusOfParentOfObject
-              ),
+              depth,
+              children: iter(node1[key], {}, depth + 1, newStatusOfParentOfObject),
             });
           }
         }
@@ -208,50 +167,40 @@ const compareFiles = (fileData1, fileData2) => {
     keys2.forEach((key) => {
       if (!Object.hasOwn(node1, key)) {
         if (
-          statusOfParent === statusParentIsAdded ||
-          statusOfParent === statusParentIsUpdatedNew
+          statusOfParent === statusParentIsAdded
+          || statusOfParent === statusParentIsUpdatedNew
         ) {
-          if (typeof node2[key] !== "object") {
+          if (typeof node2[key] !== 'object') {
             resultArray.push({
               name: key,
               value: node2[key],
               status: statusParentIsAdded,
-              depth: depth,
+              depth,
             });
-          } else if (typeof node2[key] === "object") {
+          } else if (typeof node2[key] === 'object') {
             newStatusOfParentOfObject = statusParentIsAdded;
             resultArray.push({
               name: key,
               status: newStatusOfParentOfObject,
-              depth: depth,
-              children: iter(
-                {},
-                node2[key],
-                depth + 1,
-                newStatusOfParentOfObject
-              ),
+              depth,
+              children: iter({}, node2[key], depth + 1, newStatusOfParentOfObject),
             });
           }
         } else {
-          if (typeof node2[key] !== "object") {
+          if (typeof node2[key] !== 'object') {
             resultArray.push({
               name: key,
               value: node2[key],
               status: statusAdded,
-              depth: depth,
+              depth,
             });
-          } else if (typeof node2[key] === "object") {
+          } else if (typeof node2[key] === 'object') {
             newStatusOfParentOfObject = statusParentIsAdded;
             resultArray.push({
               name: key,
               status: statusAdded,
-              depth: depth,
-              children: iter(
-                {},
-                node2[key],
-                depth + 1,
-                newStatusOfParentOfObject
-              ),
+              depth,
+              children: iter({}, node2[key], depth + 1, newStatusOfParentOfObject),
             });
           }
         }
@@ -261,7 +210,7 @@ const compareFiles = (fileData1, fileData2) => {
     return resultArray;
   };
 
-  return iter(fileData1, fileData2, 0, "");
+  return iter(fileData1, fileData2, 0, '');
 };
 
 export default compareFiles;

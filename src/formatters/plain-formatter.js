@@ -1,4 +1,4 @@
-import sortByAlphabetical from "./sorter.js";
+import sortByAlphabetical from './sorter.js';
 
 /**
  * Formats the compared result array into a plain text string representation.
@@ -7,14 +7,14 @@ import sortByAlphabetical from "./sorter.js";
  * @return {string} The formatted plain text string representation of the compared result array.
  */
 const formatLikePlain = (comparedResultArray) => {
-  let stringForPrint = "";
+  let stringForPrint = '';
 
-  const iter = (comparedResultArray, pathToCurrentNode) => {
-    sortByAlphabetical(comparedResultArray);
+  const iter = (node, pathToCurrentNode) => {
+    sortByAlphabetical(node);
 
-    comparedResultArray.forEach((obj) => {
+    node.forEach((obj) => {
       let value;
-      if (typeof obj.value === "string") {
+      if (typeof obj.value === 'string') {
         value = `'${obj.value}'`;
       } else {
         value = obj.value;
@@ -22,11 +22,9 @@ const formatLikePlain = (comparedResultArray) => {
 
       let updatedValue;
       let updatedElements;
-      if (obj.status === "updated: old") {
-        updatedElements = comparedResultArray.filter(
-          (el) => el.name === obj.name
-        );
-        if (typeof updatedElements[1].value === "string") {
+      if (obj.status === 'updated: old') {
+        updatedElements = node.filter((el) => el.name === obj.name);
+        if (typeof updatedElements[1].value === 'string') {
           updatedValue = `'${updatedElements[1].value}'`;
         } else {
           updatedValue = updatedElements[1].value;
@@ -35,39 +33,40 @@ const formatLikePlain = (comparedResultArray) => {
 
       let currentStr;
       switch (obj.status) {
-        case "deleted":
+        case 'deleted':
           currentStr = `\nProperty '${pathToCurrentNode}${obj.name}' was removed`;
-          stringForPrint = stringForPrint + currentStr;
+          stringForPrint += currentStr;
           break;
 
-        case "added":
+        case 'added':
           currentStr = `\nProperty '${pathToCurrentNode}${obj.name}' was added with value: `;
 
           if (obj?.children === undefined) {
-            currentStr = currentStr + value;
+            currentStr += value;
           } else if (obj?.children !== undefined) {
-            currentStr = currentStr + "[complex value]";
+            currentStr += '[complex value]';
           }
 
-          stringForPrint = stringForPrint + currentStr;
+          stringForPrint += currentStr;
           break;
 
-        case "updated: old":
+        case 'updated: old':
           currentStr = `\nProperty '${pathToCurrentNode}${obj.name}' was updated. From `;
 
           if (obj?.children === undefined) {
-            currentStr = currentStr + `${value} `;
+            currentStr += `${value} `;
           } else if (obj?.children !== undefined) {
-            currentStr = currentStr + `[complex value] `;
+            currentStr += '[complex value] ';
           }
           if (updatedElements[1]?.children === undefined) {
-            currentStr = currentStr + `to ${updatedValue}`;
+            currentStr += `to ${updatedValue}`;
           } else if (updatedElements[1]?.children !== undefined) {
-            currentStr = currentStr + `to [complex value]`;
+            currentStr += 'to [complex value]';
           }
 
-          stringForPrint = stringForPrint + currentStr;
+          stringForPrint += currentStr;
           break;
+        default:
       }
 
       if (obj?.children !== undefined) {
@@ -79,7 +78,7 @@ const formatLikePlain = (comparedResultArray) => {
     return stringForPrint;
   };
 
-  let result = iter(comparedResultArray, "");
+  let result = iter(comparedResultArray, '');
   result = result.slice(1); // Deleting first '\n'
   return result;
 };

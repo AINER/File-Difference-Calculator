@@ -1,15 +1,18 @@
-import formatLikeStylish from "./stylish-formatter.js";
-import formatLikePlain from "./plain-formatter.js";
-import formatLikeJson from "./json-formatter.js";
+/* eslint-disable consistent-return */
+
+import formatLikeStylish from './stylish-formatter.js';
+import formatLikePlain from './plain-formatter.js';
+import formatLikeJson from './json-formatter.js';
 
 const formatСomparisonResult = (comparedResultArray, style) => {
   switch (style) {
-    case "stylish":
+    case 'stylish':
       return formatLikeStylish(comparedResultArray);
-    case "plain":
+    case 'plain':
       return formatLikePlain(comparedResultArray);
-    case "json":
+    case 'json':
       return formatLikeJson(comparedResultArray);
+    default:
   }
 };
 

@@ -1,4 +1,4 @@
-import sortByAlphabetical from "./sorter.js";
+import sortByAlphabetical from './sorter.js';
 
 /**
  * Formats the comparison result array in a stylish manner.
@@ -7,23 +7,23 @@ import sortByAlphabetical from "./sorter.js";
  * @return {string} The formatted string ready for printing.
  */
 const formatLikeStylish = (comparedResultArray) => {
-  let stringForPrint = "{";
+  let stringForPrint = '{';
 
-  const iter = (comparedResultArray) => {
-    const nestedElementIndent = "    ";
-    sortByAlphabetical(comparedResultArray);
+  const iter = (node) => {
+    const nestedElementIndent = '    ';
+    sortByAlphabetical(node);
 
     let currentStr;
-    comparedResultArray.forEach((obj) => {
+    node.forEach((obj) => {
       switch (obj.status) {
-        case "deleted":
-        case "updated: old":
+        case 'deleted':
+        case 'updated: old':
           currentStr = `\n${nestedElementIndent.repeat(obj.depth)}  - ${
             obj.name
           }: `;
           break;
-        case "added":
-        case "updated: new":
+        case 'added':
+        case 'updated: new':
           currentStr = `\n${nestedElementIndent.repeat(obj.depth)}  + ${
             obj.name
           }: `;
@@ -34,27 +34,25 @@ const formatLikeStylish = (comparedResultArray) => {
           }: `;
       }
       if (obj?.children === undefined) {
-        currentStr = currentStr + obj.value;
-        stringForPrint = stringForPrint + currentStr;
+        currentStr += obj.value;
+        stringForPrint += currentStr;
       } else if (obj?.children !== undefined) {
-        currentStr = currentStr + "{";
-        stringForPrint = stringForPrint + currentStr;
+        currentStr += '{';
+        stringForPrint += currentStr;
         iter(obj.children);
       }
     });
 
-    if (comparedResultArray[0]?.depth > 0) {
-      const closingBracketIndent = nestedElementIndent.repeat(
-        comparedResultArray[0]?.depth
-      );
-      stringForPrint = stringForPrint + `\n${closingBracketIndent}}`;
+    if (node[0]?.depth > 0) {
+      const closingBracketIndent = nestedElementIndent.repeat(node[0]?.depth);
+      stringForPrint += `\n${closingBracketIndent}}`;
     }
 
     return stringForPrint;
   };
 
   let result = iter(comparedResultArray);
-  result = result + `\n}`;
+  result += '\n}';
   return result;
 };
 
