@@ -63,7 +63,7 @@ const formatLikePlain = (comparedResultArray) => {
           if (updatedElements[1]?.children === undefined) {
             currentStr = currentStr + `to ${updatedValue}`;
           } else if (updatedElements[1]?.children !== undefined) {
-            currentStr = currentStr + ` to [complex value]`;
+            currentStr = currentStr + `to [complex value]`;
           }
 
           stringForPrint = stringForPrint + currentStr;
