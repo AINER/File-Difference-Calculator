@@ -1,10 +1,10 @@
 import sortByAlphabetical from "./sorter.js";
 
 /**
- * Normalizes the comparison result array for printing.
+ * Formats the comparison result array in a stylish manner.
  *
  * @param {Array} comparedResultArray - The array containing the comparison result objects.
- * @return {Array} The normalized array ready for printing.
+ * @return {string} The formatted string ready for printing.
  */
 const formatLikeStylish = (comparedResultArray) => {
   let stringForPrint = "{";

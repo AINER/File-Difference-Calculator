@@ -1,5 +1,3 @@
-const formatLikeJson = (comparedResultArray) => [
-  JSON.stringify(comparedResultArray, null, "  "),
-];
+const formatLikeJson = (comparedResultArray) => comparedResultArray;
 
 export default formatLikeJson;

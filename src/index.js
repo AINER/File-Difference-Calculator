@@ -45,13 +45,12 @@ const compareFilesAndPrintResult = (
   const comparisonResult = compareFiles(fileData1, fileData2);
 
   const normalizeFormatOption = formatOption.toLocaleLowerCase().trim();
-  let formattedStrings;
-  formattedStrings = formatСomparisonResult(
+  const formattedResult = formatСomparisonResult(
     comparisonResult,
     normalizeFormatOption
   );
 
-  return formattedStrings; // return array for tests
+  return formattedResult; // return array for tests
 };
 
 export default compareFilesAndPrintResult;

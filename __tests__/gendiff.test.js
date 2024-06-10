@@ -121,7 +121,7 @@ test("gendiff for volumetric data with JSON format", () => {
     currentDirectoryName,
     "__fixtures__/volumetric-file2.json"
   );
-  expect(
-    JSON.parse(compareFilesAction(fullFilePath1, fullFilePath2, format))
-  ).toEqual(expectedResult);
+  expect(compareFilesAction(fullFilePath1, fullFilePath2, format)).toEqual(
+    expectedResult
+  );
 });

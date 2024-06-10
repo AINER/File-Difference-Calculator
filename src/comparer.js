@@ -6,10 +6,17 @@ import _ from "lodash";
  * @param {Object} fileData1 - The data from the first file.
  * @param {Object} fileData2 - The data from the second file.
  * @return {Array} An array of objects representing the differences between the two files.
- *                 Each object has a key-value pair representing a difference, and a 'status'
- *                 property indicating whether the value was added, deleted, or unchanged.
  */
 const compareFiles = (fileData1, fileData2) => {
+  /**
+   * Recursive function to compare two nodes and their children.
+   *
+   * @param {Object} node1 - The first node.
+   * @param {Object} node2 - The second node.
+   * @param {number} depth - The depth of the current node.
+   * @param {string} statusOfParent - The status of the parent node.
+   * @return {Array} An array of objects representing the differences between the two nodes.
+   */
   const iter = (node1, node2, depth, statusOfParent) => {
     const resultArray = [];
 
