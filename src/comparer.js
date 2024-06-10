@@ -16,6 +16,8 @@ const compareFiles = (fileData1, fileData2) => {
     const statusUnchanged = "unchanged";
     const statusUpdatedOld = "updated: old";
     const statusUpdatedNew = "updated: new";
+    const statusDeleted = "deleted";
+    const statusModifiedInternally = "modified internally";
     const statusParentIsDeleted = "parent is deleted";
     const statusParentIsAdded = "parent is added";
     const statusParentIsUpdatedOld = "parent is updated: old";
@@ -51,7 +53,7 @@ const compareFiles = (fileData1, fileData2) => {
               newStatusOfParentOfObject = statusParentIsUpdatedNew;
               resultArray.push({
                 name: key,
-                status: newStatusOfParentOfObject,
+                status: statusUpdatedNew,
                 depth: depth,
                 children: iter(
                   {},
@@ -69,7 +71,7 @@ const compareFiles = (fileData1, fileData2) => {
             ) {
               resultArray.push({
                 name: key,
-                status: "modified internally",
+                status: statusModifiedInternally,
                 depth: depth,
                 children: iter(node1[key], node2[key], depth + 1),
               });
@@ -109,7 +111,7 @@ const compareFiles = (fileData1, fileData2) => {
               newStatusOfParentOfObject = statusParentIsUpdatedNew;
               resultArray.push({
                 name: key,
-                status: newStatusOfParentOfObject,
+                status: statusUpdatedNew,
                 depth: depth,
                 children: iter(
                   {},
@@ -165,14 +167,14 @@ const compareFiles = (fileData1, fileData2) => {
             resultArray.push({
               name: key,
               value: node1[key],
-              status: "deleted",
+              status: statusDeleted,
               depth: depth,
             });
           } else if (typeof node1[key] === "object") {
             newStatusOfParentOfObject = statusParentIsDeleted;
             resultArray.push({
               name: key,
-              status: "deleted",
+              status: statusDeleted,
               depth: depth,
               children: iter(
                 node1[key],
