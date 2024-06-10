@@ -10,8 +10,6 @@ const formatLikeStylish = (comparedResultArray) => {
   let stringForPrint = "{";
 
   const iter = (comparedResultArray) => {
-    console.log(JSON.stringify(comparedResultArray, null, "  "));
-
     const nestedElementIndent = "    ";
     sortByAlphabetical(comparedResultArray);
 
@@ -57,7 +55,6 @@ const formatLikeStylish = (comparedResultArray) => {
 
   let result = iter(comparedResultArray);
   result = result + `\n}`;
-  console.log(result);
   return result;
 };
 
