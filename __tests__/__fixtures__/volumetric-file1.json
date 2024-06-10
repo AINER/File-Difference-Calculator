@@ -8,7 +8,8 @@
       "doge": {
         "wow": ""
       }
-    }
+    },
+    "setting7": true
   },
   "group1": {
     "baz": "bas",
@@ -22,5 +23,8 @@
     "deep": {
       "id": 45
     }
+  },
+  "group4": {
+    "default": null
   }
 }

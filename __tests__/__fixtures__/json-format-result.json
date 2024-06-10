@@ -67,6 +67,25 @@
         ]
       },
       {
+        "name": "setting7",
+        "value": true,
+        "status": "updated: old",
+        "depth": 1
+      },
+      {
+        "name": "setting7",
+        "status": "updated: new",
+        "depth": 1,
+        "children": [
+          {
+            "name": "key",
+            "value": "value",
+            "status": "parent is added",
+            "depth": 2
+          }
+        ]
+      },
+      {
         "name": "follow",
         "value": false,
         "status": "added",
@@ -160,6 +179,25 @@
             "depth": 2
           }
         ]
+      }
+    ]
+  },
+  {
+    "name": "group4",
+    "status": "modified internally",
+    "depth": 0,
+    "children": [
+      {
+        "name": "default",
+        "value": null,
+        "status": "updated: old",
+        "depth": 1
+      },
+      {
+        "name": "default",
+        "value": "",
+        "status": "updated: new",
+        "depth": 1
       }
     ]
   },

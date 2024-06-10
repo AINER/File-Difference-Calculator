@@ -56,9 +56,14 @@ const formatLikePlain = (comparedResultArray) => {
           currentStr = `\nProperty '${pathToCurrentNode}${obj.name}' was updated. From `;
 
           if (obj?.children === undefined) {
-            currentStr = currentStr + `${value} to ${updatedValue}`;
+            currentStr = currentStr + `${value} `;
           } else if (obj?.children !== undefined) {
-            currentStr = currentStr + `[complex value] to ${updatedValue}`;
+            currentStr = currentStr + `[complex value] `;
+          }
+          if (updatedElements[1]?.children === undefined) {
+            currentStr = currentStr + `to ${updatedValue}`;
+          } else if (updatedElements[1]?.children !== undefined) {
+            currentStr = currentStr + ` to [complex value]`;
           }
 
           stringForPrint = stringForPrint + currentStr;

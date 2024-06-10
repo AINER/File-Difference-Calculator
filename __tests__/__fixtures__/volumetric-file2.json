@@ -13,6 +13,9 @@
       "doge": {
         "wow": "so much"
       }
+    },
+    "setting7": {
+      "key": "value"
     }
   },
   "group1": {
@@ -27,5 +30,8 @@
       }
     },
     "fee": 100500
+  },
+  "group4": {
+    "default": ""
   }
 }

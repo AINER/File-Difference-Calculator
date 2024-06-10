@@ -3,17 +3,19 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import compareFilesAction from "../src/index.js";
-import {
-  flatResult,
-  volumetricResult,
-  volumetricResultInPlainFormat,
-} from "./__fixtures__/exprected-results.js";
 
 const currentFilePath = fileURLToPath(import.meta.url);
 const currentDirectoryName = dirname(currentFilePath);
 
 test("gendiff for flat data with stylish format", () => {
   const format = "stylish";
+
+  const expectedResult = readFileSync(
+    resolve(currentDirectoryName, "__fixtures__/result-flat-stylish.txt"),
+    {
+      encoding: "utf8",
+    }
+  );
 
   let fullFilePath1 = resolve(
     currentDirectoryName,
@@ -24,19 +26,26 @@ test("gendiff for flat data with stylish format", () => {
     "__fixtures__/flat-file2.json"
   );
   expect(compareFilesAction(fullFilePath1, fullFilePath2, format)).toEqual(
-    flatResult
+    expectedResult
   );
 
   fullFilePath1 = resolve(currentDirectoryName, "__fixtures__/flat-file1.yaml");
   fullFilePath2 = resolve(currentDirectoryName, "__fixtures__/flat-file2.yml");
   expect(compareFilesAction(fullFilePath1, fullFilePath2, format)).toEqual(
-    flatResult
+    expectedResult
   );
 });
 
 test("gendiff for volumetric data with stylish format", () => {
   const format = "stylish";
 
+  const expectedResult = readFileSync(
+    resolve(currentDirectoryName, "__fixtures__/result-volumetric-stylish.txt"),
+    {
+      encoding: "utf8",
+    }
+  );
+
   let fullFilePath1 = resolve(
     currentDirectoryName,
     "__fixtures__/volumetric-file1.json"
@@ -46,7 +55,7 @@ test("gendiff for volumetric data with stylish format", () => {
     "__fixtures__/volumetric-file2.json"
   );
   expect(compareFilesAction(fullFilePath1, fullFilePath2, format)).toEqual(
-    volumetricResult
+    expectedResult
   );
 
   fullFilePath1 = resolve(
@@ -58,13 +67,20 @@ test("gendiff for volumetric data with stylish format", () => {
     "__fixtures__/volumetric-file2.yaml"
   );
   expect(compareFilesAction(fullFilePath1, fullFilePath2, format)).toEqual(
-    volumetricResult
+    expectedResult
   );
 });
 
 test("gendiff for volumetric data with plain format", () => {
   const format = "plain";
 
+  const expectedResult = readFileSync(
+    resolve(currentDirectoryName, "__fixtures__/result-volumetric-plain.txt"),
+    {
+      encoding: "utf8",
+    }
+  );
+
   let fullFilePath1 = resolve(
     currentDirectoryName,
     "__fixtures__/volumetric-file1.json"
@@ -74,7 +90,7 @@ test("gendiff for volumetric data with plain format", () => {
     "__fixtures__/volumetric-file2.json"
   );
   expect(compareFilesAction(fullFilePath1, fullFilePath2, format)).toEqual(
-    volumetricResultInPlainFormat
+    expectedResult
   );
 
   fullFilePath1 = resolve(
@@ -86,7 +102,7 @@ test("gendiff for volumetric data with plain format", () => {
     "__fixtures__/volumetric-file2.yaml"
   );
   expect(compareFilesAction(fullFilePath1, fullFilePath2, format)).toEqual(
-    volumetricResultInPlainFormat
+    expectedResult
   );
 });
 
@@ -95,7 +111,7 @@ test("gendiff for volumetric data with JSON format", () => {
   const jsonData = readFileSync(
     resolve(currentDirectoryName, "__fixtures__/json-format-result.json")
   );
-  const volumetricResultInJsonFormat = JSON.parse(jsonData);
+  const expectedResult = JSON.parse(jsonData);
 
   let fullFilePath1 = resolve(
     currentDirectoryName,
@@ -107,5 +123,5 @@ test("gendiff for volumetric data with JSON format", () => {
   );
   expect(
     JSON.parse(compareFilesAction(fullFilePath1, fullFilePath2, format))
-  ).toEqual(volumetricResultInJsonFormat);
+  ).toEqual(expectedResult);
 });

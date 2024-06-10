@@ -10,6 +10,8 @@ common:
     ops: vops
     doge:
       wow: so much
+  setting7:
+    key: value
 group1:
   foo: bar
   baz: bars
@@ -19,3 +21,5 @@ group3:
     id:
       number: 45
   fee: 100500
+group4:
+  default: ""
