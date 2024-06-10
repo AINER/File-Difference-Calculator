@@ -23,7 +23,9 @@ program
       options.format !== "stylish" &&
       options.format !== "json"
     ) {
-      throw new Error("Undefined format. Try to use 'plain' or 'stylish'");
+      throw new Error(
+        "Undefined format. Try to use 'plain', 'stylish' or 'json'"
+      );
     }
 
     compareFilesAndPrintResult(filePath1, filePath2, options.format).forEach(

@@ -22,6 +22,12 @@ const compareFiles = (fileData1, fileData2) => {
     const statusParentIsUpdatedNew = "parent is updated: new";
     let newStatusOfParentOfObject;
 
+    if (typeof node1 !== "object" || typeof node2 !== "object") {
+      throw new Error(
+        "Incorrect type of input data. Check the correctness of the contents in files specified for comparison"
+      );
+    }
+
     const keys1 = Object.keys(node1);
     keys1.forEach((key) => {
       if (Object.hasOwn(node2, key)) {
