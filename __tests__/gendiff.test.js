@@ -111,7 +111,7 @@ test("gendiff for volumetric data with JSON format", () => {
   const jsonData = readFileSync(
     resolve(currentDirectoryName, "__fixtures__/json-format-result.json")
   );
-  const expectedResult = JSON.parse(jsonData);
+  const expectedResult = JSON.stringify(JSON.parse(jsonData));
 
   let fullFilePath1 = resolve(
     currentDirectoryName,
