@@ -11,7 +11,11 @@ import formatСomparisonResult from "./formatters/index.js";
  * @param {string} formatOption.format - The format for the comparison result. Valid values are "stylish" or any other format.
  * @return {Array} The array of strings representing the comparison result. For tests
  */
-const compareFilesAndPrintResult = (filePath1, filePath2, formatOption) => {
+const compareFilesAndPrintResult = (
+  filePath1,
+  filePath2,
+  formatOption = "stylish"
+) => {
   if (
     formatOption !== "plain" &&
     formatOption !== "stylish" &&
