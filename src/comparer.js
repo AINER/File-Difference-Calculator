@@ -22,6 +22,10 @@ const compareFiles = (fileData1, fileData2) => {
     const statusParentIsUpdatedNew = "parent is updated: new";
     let newStatusOfParentOfObject;
 
+    console.log("node1", node1);
+    console.log("typeof node1", typeof node1);
+    console.log("Object.keys(node1)", Object.keys(node1));
+
     const keys1 = Object.keys(node1);
     keys1.forEach((key) => {
       if (Object.hasOwn(node2, key)) {
