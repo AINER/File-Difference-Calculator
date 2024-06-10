@@ -30,6 +30,11 @@ const compareFilesAndPrintResult = (
   const fileData1 = parseData(filePath1);
   const fileData2 = parseData(filePath2);
 
+  console.log("fileData1", fileData1);
+  console.log("fileData2", fileData2);
+  console.log("typeof fileData1", typeof fileData1);
+  console.log("typeof fileData2", typeof fileData2);
+
   if (
     typeof fileData1 !== "object" ||
     typeof fileData2 !== "object" ||
