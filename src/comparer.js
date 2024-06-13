@@ -1,6 +1,7 @@
-/* eslint-disable no-lonely-if */
+/* eslint-disable no-lonely-if, fp/no-let, fp/no-mutating-methods */
 
 import _ from 'lodash';
+import * as STATUS from './STATUS-OF-DATA-CONSTANTS.js';
 
 /**
  * Compares the data in two files and returns an array of objects representing the differences.
@@ -22,16 +23,6 @@ const compareFiles = (fileData1, fileData2) => {
   const iter = (node1, node2, depth, statusOfParent) => {
     const resultArray = [];
 
-    const statusUnchanged = 'unchanged';
-    const statusUpdatedOld = 'updated: old';
-    const statusUpdatedNew = 'updated: new';
-    const statusDeleted = 'deleted';
-    const statusAdded = 'added';
-    const statusParentIsDeleted = 'parent is deleted';
-    const statusParentIsAdded = 'parent is added';
-    const statusParentIsUpdatedOld = 'parent is updated: old';
-    const statusParentIsUpdatedNew = 'parent is updated: new';
-    const statusModifiedInternally = 'modified internally';
     let newStatusOfParentOfObject;
 
     const keys1 = Object.keys(node1);
@@ -41,7 +32,7 @@ const compareFiles = (fileData1, fileData2) => {
           resultArray.push({
             name: key,
             value: node1[key],
-            status: statusUnchanged,
+            status: STATUS.UNCHANGED,
             depth,
           });
         } else if (!_.isEqual(node1[key], node2[key])) {
@@ -49,21 +40,21 @@ const compareFiles = (fileData1, fileData2) => {
             resultArray.push({
               name: key,
               value: node1[key],
-              status: statusUpdatedOld,
+              status: STATUS.UPDATED_OLD,
               depth,
             });
             if (typeof node2[key] !== 'object' || node2[key] === null) {
               resultArray.push({
                 name: key,
                 value: node2[key],
-                status: statusUpdatedNew,
+                status: STATUS.UPDATED_NEW,
                 depth,
               });
             } else if (typeof node2[key] === 'object' && node2[key] !== null) {
-              newStatusOfParentOfObject = statusParentIsUpdatedNew;
+              newStatusOfParentOfObject = STATUS.PARENT_IS_UPDATED_NEW;
               resultArray.push({
                 name: key,
-                status: statusUpdatedNew,
+                status: STATUS.UPDATED_NEW,
                 depth,
                 children: iter({}, node2[key], depth + 1, newStatusOfParentOfObject),
               });
@@ -73,33 +64,33 @@ const compareFiles = (fileData1, fileData2) => {
             ) {
               resultArray.push({
                 name: key,
-                status: statusModifiedInternally,
+                status: STATUS.MODIFIED_INTERNALLY,
                 depth,
-                children: iter(node1[key], node2[key], depth + 1, statusModifiedInternally),
+                children: iter(node1[key], node2[key], depth + 1, STATUS.MODIFIED_INTERNALLY),
               });
             } else if (node1[key] !== null && (typeof node2[key] !== 'object' || node2[key] === null)
             ) {
-              newStatusOfParentOfObject = statusParentIsUpdatedOld;
+              newStatusOfParentOfObject = STATUS.PARENT_IS_UPDATED_OLD;
               resultArray.push({
                 name: key,
-                status: statusUpdatedOld,
+                status: STATUS.UPDATED_OLD,
                 depth,
                 children: iter(node1[key], {}, depth + 1, newStatusOfParentOfObject),
               });
               resultArray.push({
                 name: key,
                 value: node2[key],
-                status: statusUpdatedNew,
+                status: STATUS.UPDATED_NEW,
                 depth,
               });
             } else if (node1[key] === null && node2[key] !== null && typeof node2[key] === 'object') {
               resultArray.push({
                 name: key,
                 value: node1[key],
-                status: statusUpdatedOld,
+                status: STATUS.UPDATED_OLD,
                 depth,
               });
-              newStatusOfParentOfObject = statusParentIsUpdatedNew;
+              newStatusOfParentOfObject = STATUS.PARENT_IS_UPDATED_NEW;
               resultArray.push({
                 name: key,
                 status: newStatusOfParentOfObject,
@@ -111,30 +102,30 @@ const compareFiles = (fileData1, fileData2) => {
               resultArray.push({
                 name: key,
                 value: node1[key],
-                status: statusUpdatedOld,
+                status: STATUS.UPDATED_OLD,
                 depth,
               });
               resultArray.push({
                 name: key,
                 value: node2[key],
-                status: statusUpdatedNew,
+                status: STATUS.UPDATED_NEW,
                 depth,
               });
             }
           }
         }
       } else if (!Object.hasOwn(node2, key)) {
-        if (statusOfParent === statusParentIsDeleted
-          || statusOfParent === statusParentIsUpdatedOld) {
+        if (statusOfParent === STATUS.PARENT_IS_DELETED
+          || statusOfParent === STATUS.PARENT_IS_UPDATED_OLD) {
           if (typeof node1[key] !== 'object') {
             resultArray.push({
               name: key,
               value: node1[key],
-              status: statusParentIsDeleted,
+              status: STATUS.PARENT_IS_DELETED,
               depth,
             });
           } else if (typeof node1[key] === 'object') {
-            newStatusOfParentOfObject = statusParentIsDeleted;
+            newStatusOfParentOfObject = STATUS.PARENT_IS_DELETED;
             resultArray.push({
               name: key,
               status: newStatusOfParentOfObject,
@@ -147,14 +138,14 @@ const compareFiles = (fileData1, fileData2) => {
             resultArray.push({
               name: key,
               value: node1[key],
-              status: statusDeleted,
+              status: STATUS.DELETED,
               depth,
             });
           } else if (typeof node1[key] === 'object') {
-            newStatusOfParentOfObject = statusParentIsDeleted;
+            newStatusOfParentOfObject = STATUS.PARENT_IS_DELETED;
             resultArray.push({
               name: key,
-              status: statusDeleted,
+              status: STATUS.DELETED,
               depth,
               children: iter(node1[key], {}, depth + 1, newStatusOfParentOfObject),
             });
@@ -167,18 +158,18 @@ const compareFiles = (fileData1, fileData2) => {
     keys2.forEach((key) => {
       if (!Object.hasOwn(node1, key)) {
         if (
-          statusOfParent === statusParentIsAdded
-          || statusOfParent === statusParentIsUpdatedNew
+          statusOfParent === STATUS.PARENT_IS_ADDED
+          || statusOfParent === STATUS.PARENT_IS_UPDATED_NEW
         ) {
           if (typeof node2[key] !== 'object') {
             resultArray.push({
               name: key,
               value: node2[key],
-              status: statusParentIsAdded,
+              status: STATUS.PARENT_IS_ADDED,
               depth,
             });
           } else if (typeof node2[key] === 'object') {
-            newStatusOfParentOfObject = statusParentIsAdded;
+            newStatusOfParentOfObject = STATUS.PARENT_IS_ADDED;
             resultArray.push({
               name: key,
               status: newStatusOfParentOfObject,
@@ -191,14 +182,14 @@ const compareFiles = (fileData1, fileData2) => {
             resultArray.push({
               name: key,
               value: node2[key],
-              status: statusAdded,
+              status: STATUS.ADDED,
               depth,
             });
           } else if (typeof node2[key] === 'object') {
-            newStatusOfParentOfObject = statusParentIsAdded;
+            newStatusOfParentOfObject = STATUS.PARENT_IS_ADDED;
             resultArray.push({
               name: key,
-              status: statusAdded,
+              status: STATUS.ADDED,
               depth,
               children: iter({}, node2[key], depth + 1, newStatusOfParentOfObject),
             });

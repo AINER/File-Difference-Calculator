@@ -1,4 +1,7 @@
+/* eslint-disable no-lonely-if, fp/no-let, fp/no-mutating-methods */
+
 import sortByAlphabetical from './sorter.js';
+import * as STATUS from '../STATUS-OF-DATA-CONSTANTS.js';
 
 /**
  * Formats the comparison result array in a stylish manner.
@@ -11,27 +14,21 @@ const formatLikeStylish = (comparedResultArray) => {
 
   const iter = (node) => {
     const nestedElementIndent = '    ';
-    sortByAlphabetical(node);
+    const sortedNode = sortByAlphabetical(node);
 
     let currentStr;
-    node.forEach((obj) => {
+    sortedNode.forEach((obj) => {
       switch (obj.status) {
-        case 'deleted':
-        case 'updated: old':
-          currentStr = `\n${nestedElementIndent.repeat(obj.depth)}  - ${
-            obj.name
-          }: `;
+        case STATUS.DELETED:
+        case STATUS.UPDATED_OLD:
+          currentStr = `\n${nestedElementIndent.repeat(obj.depth)}  - ${obj.name}: `;
           break;
-        case 'added':
-        case 'updated: new':
-          currentStr = `\n${nestedElementIndent.repeat(obj.depth)}  + ${
-            obj.name
-          }: `;
+        case STATUS.ADDED:
+        case STATUS.UPDATED_NEW:
+          currentStr = `\n${nestedElementIndent.repeat(obj.depth)}  + ${obj.name}: `;
           break;
         default:
-          currentStr = `\n${nestedElementIndent.repeat(obj.depth)}    ${
-            obj.name
-          }: `;
+          currentStr = `\n${nestedElementIndent.repeat(obj.depth)}    ${obj.name}: `;
       }
       if (obj?.children === undefined) {
         currentStr += obj.value;

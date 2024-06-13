@@ -1,4 +1,7 @@
+/* eslint-disable no-lonely-if, fp/no-let, fp/no-mutating-methods */
+
 import sortByAlphabetical from './sorter.js';
+import * as STATUS from '../STATUS-OF-DATA-CONSTANTS.js';
 
 /**
  * Formats the compared result array into a plain text string representation.
@@ -10,9 +13,9 @@ const formatLikePlain = (comparedResultArray) => {
   let stringForPrint = '';
 
   const iter = (node, pathToCurrentNode) => {
-    sortByAlphabetical(node);
+    const sortedNode = sortByAlphabetical(node);
 
-    node.forEach((obj) => {
+    sortedNode.forEach((obj) => {
       let value;
       if (typeof obj.value === 'string') {
         value = `'${obj.value}'`;
@@ -22,7 +25,7 @@ const formatLikePlain = (comparedResultArray) => {
 
       let updatedValue;
       let updatedElements;
-      if (obj.status === 'updated: old') {
+      if (obj.status === STATUS.UPDATED_OLD) {
         updatedElements = node.filter((el) => el.name === obj.name);
         if (typeof updatedElements[1].value === 'string') {
           updatedValue = `'${updatedElements[1].value}'`;
@@ -33,12 +36,12 @@ const formatLikePlain = (comparedResultArray) => {
 
       let currentStr;
       switch (obj.status) {
-        case 'deleted':
+        case STATUS.DELETED:
           currentStr = `\nProperty '${pathToCurrentNode}${obj.name}' was removed`;
           stringForPrint += currentStr;
           break;
 
-        case 'added':
+        case STATUS.ADDED:
           currentStr = `\nProperty '${pathToCurrentNode}${obj.name}' was added with value: `;
 
           if (obj?.children === undefined) {
@@ -50,7 +53,7 @@ const formatLikePlain = (comparedResultArray) => {
           stringForPrint += currentStr;
           break;
 
-        case 'updated: old':
+        case STATUS.UPDATED_OLD:
           currentStr = `\nProperty '${pathToCurrentNode}${obj.name}' was updated. From `;
 
           if (obj?.children === undefined) {
