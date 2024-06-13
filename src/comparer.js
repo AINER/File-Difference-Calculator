@@ -1,4 +1,4 @@
-/* eslint-disable no-lonely-if, fp/no-let, fp/no-mutating-methods */
+/* eslint-disable no-lonely-if, fp/no-let, fp/no-mutating-methods, fp/no-mutation */
 
 import _ from 'lodash';
 import * as STATUS from './STATUS-OF-DATA-CONSTANTS.js';

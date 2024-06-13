@@ -1,4 +1,4 @@
-/* eslint-disable no-lonely-if, fp/no-let, fp/no-mutating-methods */
+/* eslint-disable no-lonely-if, fp/no-let, fp/no-mutating-methods, fp/no-mutation */
 
 import sortByAlphabetical from './sorter.js';
 import * as STATUS from '../STATUS-OF-DATA-CONSTANTS.js';

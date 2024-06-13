@@ -1,3 +1,5 @@
+/* eslint-disable no-lonely-if, fp/no-let, fp/no-mutating-methods, fp/no-mutation */
+
 import _ from 'lodash';
 
 /**

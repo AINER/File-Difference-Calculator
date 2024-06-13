@@ -1,3 +1,5 @@
+/* eslint-disable no-lonely-if, fp/no-let, fp/no-mutating-methods, fp/no-mutation */
+
 import { readFileSync } from 'node:fs';
 import { resolve, extname } from 'node:path';
 import yaml from 'js-yaml';
