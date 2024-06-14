@@ -6,4 +6,4 @@
 
 ### Compare two files and see the differences between strings in different formats.
  
-[![asciicast](https://asciinema.org/a/vdJ5Tv08IF3BWjyInForTYajO.svg)](https://asciinema.org/a/)
+[![asciicast](https://asciinema.org/a/vdJ5Tv08IF3BWjyInForTYajO.svg)](https://asciinema.org/a/vdJ5Tv08IF3BWjyInForTYajO)
