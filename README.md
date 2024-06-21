@@ -13,3 +13,21 @@ This is a CLI utility to determine the differences between data configurations.
 * Has various output formats: stylish, plain, json
 
 [![asciicast](https://asciinema.org/a/vdJ5Tv08IF3BWjyInForTYajO.svg)](https://asciinema.org/a/vdJ5Tv08IF3BWjyInForTYajO)
+
+## How to start
+### Requirements
+[Node.js](https://nodejs.org/en)
+
+### Installation
+Clone this repo and use `make install`
+
+
+### Usage:
+
+`gendiff -h`  to see docs
+
+`gendiff <path to file1> <path to file2>`  to generate differences with default stylish output
+
+`gendiff --format plain <path to file1> <path to file2>`  to plain output
+
+`gendiff -f json <path to file1> <path to file2>`  to json output
