@@ -7,9 +7,9 @@ __Compare two files and see the differences between strings in different formats
 
 This is a CLI utility to determine the differences between data configurations.
 
-* Supports working with two files of different formats: json, yaml
+* Supports working with two files of different formats: JSON, YAML
 * Works with flat and tree data structures
-* Has various output formats: stylish, plain, json
+* Has various output formats: Stylish, Plain, JSON
 
 [![asciicast](https://asciinema.org/a/vdJ5Tv08IF3BWjyInForTYajO.svg)](https://asciinema.org/a/vdJ5Tv08IF3BWjyInForTYajO)
 
@@ -18,15 +18,28 @@ This is a CLI utility to determine the differences between data configurations.
 [Node.js](https://nodejs.org/en)
 
 ### Installation
-Clone this repo and use `make install`
-
+Clone this repo and use 
+```
+make install
+```
 
 ### Usage:
+See help document:
+```
+gendiff -h
+```
 
-`gendiff -h`  to see docs
+Generate differences with default **Stylish** output:
+```
+gendiff <path to file1> <path to file2>
+```
 
-`gendiff <path to file1> <path to file2>`  to generate differences with default stylish output
+**Plain** output (use `--format` for different types of outputs):
+```
+gendiff --format plain <path to file1> <path to file2>
+```
 
-`gendiff --format plain <path to file1> <path to file2>`  to plain output
-
-`gendiff -f json <path to file1> <path to file2>`  to json output
+**JSON** output (use `-f` as short version of `--format` flag):
+```
+gendiff -f json <path to file1> <path to file2>
+```
