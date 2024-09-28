@@ -18,7 +18,7 @@ This is a CLI utility to determine the differences between data configurations.
 [Node.js](https://nodejs.org/en)
 
 ### Installation
-Clone this repo and use 
+Clone this repo and use:
 ```
 make install
 ```
