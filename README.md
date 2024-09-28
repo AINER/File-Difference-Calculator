@@ -23,7 +23,7 @@ Clone this repo and use
 make install
 ```
 
-### Usage:
+### Usage
 See help document:
 ```
 gendiff -h
